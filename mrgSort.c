@@ -103,6 +103,8 @@ int* mrgSrt(int* input,int i2){
         b++;
         i++;
     }
+    free(arrA);
+    free(arrB);
     return input;
 }
 //Displays all numeric values in array
