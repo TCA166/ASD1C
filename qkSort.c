@@ -1,7 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <inttypes.h>
 #include <string.h>
 
 int* qkSort(int* arr, int arrLen);
@@ -16,7 +14,7 @@ int main(){
     char c; //currently read char from stdin
     int i = 0; //currently read column id from stdin
     int i2 = 0; //Array length
-    while(read(STDIN_FILENO, &c, 1) > 0) //While there are still chars to be read read them
+    while(c = getchar() > 0) //While there are still chars to be read read them
     {
         if(c == ' '){ //if that char is reset everything and add a new value to result arr
             strProt = realloc(strProt, (i + 1) * sizeof(char));
@@ -35,7 +33,7 @@ int main(){
         }
         
     }
-    if(strlen(strProt)){ //if strlen isnt empty at loop end do as if we found a break
+    if(strProt[0] != '\0'){ //if strlen isnt empty at loop end do as if we found a break
         strProt = realloc(strProt, (i + 1) * sizeof(char));
         strProt[i] = '\0';
         i = 0;
@@ -103,5 +101,3 @@ void printArr(int* arr, int arrLen){
     }
     printf("\n");
 }
-
-
