@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <string.h>
 
 int* mrgSrt(int* arr, int arrLen);
 
@@ -14,7 +14,7 @@ int main(){
     char c; //currently read char from stdin
     int i = 0; //currently read column id from stdin
     int i2 = 0; //Array length
-    while(read(STDIN_FILENO, &c, 1) > 0) //While there are still chars to be read read them
+    while(c = getchar() > 0) //While there are still chars to be read read them
     {
         if(c == ' '){ //if that char is reset everything and add a new value to result arr
             strProt = realloc(strProt, (i + 1) * sizeof(char));
@@ -111,5 +111,3 @@ void printArr(int* arr, int arrLen){
         printf("%d ", arr[i]);
     }
 }
-
-
