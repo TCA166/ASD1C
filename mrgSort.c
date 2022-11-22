@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <inttypes.h>
-#include <string.h>
 
 int* mrgSrt(int* arr, int arrLen);
 
@@ -35,7 +33,7 @@ int main(){
         }
         
     }
-    if(strlen(strProt)){ //if strlen isnt empty at loop end do as if we found a break
+    if(strProt[0] != '\0'){ //if strlen isnt empty at loop end do as if we found a break
         strProt = realloc(strProt, (i + 1) * sizeof(char));
         strProt[i] = '\0';
         i = 0;
