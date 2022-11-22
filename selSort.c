@@ -16,8 +16,9 @@ int main(){
     char c; //currently read char from stdin
     int i = 0; //currently read column id from stdin
     int i2 = 0; //Array length
-    while(c = getchar() > 0) //While there are still chars to be read read them
+    while(c != EOF) //While there are still chars to be read read them
     {
+        c = fgetc(stdin);
         if(c == ' '){ //if that char is reset everything and add a new value to result arr
             strProt = realloc(strProt, (i + 1) * sizeof(char));
             strProt[i] = '\0'; //end the string properly
@@ -83,4 +84,5 @@ void printArr(int* arr, int arrLen){
     for(int i = 0; i < arrLen; i++){
         printf("%d ", arr[i]);
     }
+    printf("\n");
 }
