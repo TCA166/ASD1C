@@ -2,53 +2,35 @@
 #include <stdio.h>
 #include <string.h>
 
-//Returns an array of ints sorted with the merge sort algorythm. The time complexity is O(nlogn)
-//Because T(n) = 2T(n/2) + θ(n)
-int* mrgSrt(int* input,int i2){
-    if(i2 == 1){ //if the length is one then do nothing and just return
-        return input;
+//Returns a sorted array using the count sort algorythm.
+//Count sort has T(n)=O(n + K), K=maximum value in array
+int* cntSrt(int* input, int arrLen, int maxVal){
+    int* counts = calloc(maxVal, sizeof(int));
+    //count the occurences of ints of different values
+    for(int i = 0; i < arrLen; i++){
+        int val = input[i];
+        counts[val]++;
     }
-    //Here you could also do rudimentary sorting though that would make the algorythm not canonical
-    //the length is > 1 so we have to divide
-    int sizeA = i2 / 2; //size of the left side
-    int sizeB = i2 - sizeA; //size of the right side
-    //initialise the arrays
-    int* arrA = calloc(sizeA, sizeof(int));
-    memcpy(arrA, input, sizeA * sizeof(int));
-    int* arrB = calloc(sizeB, sizeof(int));
-    memcpy(arrB, input + sizeA, sizeB * sizeof(int));
-    //recursion
-    arrA = mrgSrt(arrA, sizeA);
-    arrB = mrgSrt(arrB, sizeB);
-    //and now we have to merge
-    int a = 0, b = 0, i = 0;
-    //we compare elements from both arrays at the same time as many times as possible
-    while(a < sizeA && b < sizeB){ //while we havent reached the end of either arr
-        //compare an element from A and B and swap accordingly
-        if(arrA[a] > arrB[b]){
-            input[i] = arrB[b];
-            b++;
+    int x = 0;
+    //and now simply output
+    for(int i = 0; i < maxVal + 1; i++){
+        for(int n = counts[i]; n > 0; n--){
+            input[x] = i;
+            x++;
         }
-        else{
-            input[i] = arrA[a];
-            a++;
-        }
-        i++;
     }
-    //We make sure that no element was left behind
-    while(a < sizeA){
-        input[i] = arrA[a];
-        a++;
-        i++;
-    }
-    while(b < sizeB){
-        input[i] = arrB[b];
-        b++;
-        i++;
-    }
-    free(arrA);
-    free(arrB);
+    free(counts);
     return input;
+}
+
+int max(int* input, int arrLen){
+    int max = input[0];
+    for(int i = 1; i < arrLen; i++){
+        if(input[i] > max){
+            max = input[i];
+        }
+    }
+    return max;
 }
 
 //---Driver code for the sort algorythm---
@@ -96,7 +78,7 @@ int main(){
     free(strProt);
     //Input handled and we are ready to sort
     printf("\n");
-    input = mrgSrt(input, i2);
+    input = cntSrt(input, i2, max(input, i2));
     printArr(input, i2);
     free(input);
     return 0;

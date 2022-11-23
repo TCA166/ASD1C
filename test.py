@@ -6,12 +6,12 @@ import numpy as np
 
 #simple script designed to test the different algorythms i have written
 
-first = 1000
+first = 10000
 last = first * 10
 
 lengths = range(first, last + 1, first)
 
-results = {'mrgSort':[], 'selSort':[], 'qkSort':[]}
+results = {'selSort':[], 'qkSort':[], 'insSort':[]}
 
 for len in lengths:
     print("Input length:%d" % len)

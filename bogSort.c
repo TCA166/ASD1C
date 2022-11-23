@@ -3,9 +3,38 @@
 #include <string.h>
 #include <time.h>
 
-int* bogSort(int* arr, int arrLen);
+//Returns a sorted array using the bogo sort algorythm.
+//Optimistic T(n)=O(n) and pesymistic T(n)=O(9^n) but theoreticly bogosort can take forever
+int* bogSort(int* input, int arrLen){
+    srand(time(NULL)); //initialise rng
+    int n = 0;
+    while(!isSorted(input, arrLen)){
+        //shuffle the array
+        for(int i = 0; i < arrLen; i++){ //foreach element in the array
+            int num = (rand() % arrLen); //generate a random number with the % operator ensuring that number doesnt excede the arrLen
+            //Swap the number with the generated id with the current id
+            int t = input[num]; 
+            input[num] = input[i];
+            input[i] = t;
+        }
+        n++;
+        //printArr(input, arrLen);
+    }
+    printf("\nNum of iterations: %d\n", n);
+    return input;
+}
 
-int isSorted(int* input, int arrLen);
+//Returns 1 if the input array is sorted in a rising manner and 0 if the opposite is true
+int isSorted(int* input, int arrLen){
+    for(int i = 1; i < arrLen; i++){
+        if(input[i] < input[i - 1]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+//---Driver code for the sort algorythm---
 
 void printArr(int* arr, int arrLen);
 
@@ -53,34 +82,6 @@ int main(){
     input = bogSort(input, i2);
     free(input);
     return 0;
-}
-//Returns a sorted array using the bogo sort algorythm.
-//Optimistic T(n)=O(n) and pesymistic T(n)=O(9^n) but theoreticly bogosort can take forever
-int* bogSort(int* input, int arrLen){
-    srand(time(NULL)); //initialise rng
-    int n = 0;
-    while(!isSorted(input, arrLen)){
-        //shuffle the array
-        for(int i = 0; i < arrLen; i++){
-            int num = (rand() % arrLen);
-            int t = input[num];
-            input[num] = input[i];
-            input[i] = t;
-        }
-        n++;
-        printArr(input, arrLen);
-    }
-    printf("\nNum of iterations: %d\n", n);
-    return input;
-}
-//Returns 1 if the input array is sorted in a rising manner and 0 if the opposite is true
-int isSorted(int* input, int arrLen){
-    for(int i = 1; i < arrLen; i++){
-        if(input[i] < input[i - 1]){
-            return 0;
-        }
-    }
-    return 1;
 }
 //Displays all numeric values in array
 void printArr(int* arr, int arrLen){

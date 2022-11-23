@@ -2,7 +2,51 @@
 #include <stdio.h>
 #include <string.h>
 
-int* qkSort(int* arr, int arrLen);
+//Returns a sorted int array using the quick sort algorythim (Hoare’s Partition Scheme)
+//Avg and optimistic T(n)=O(nlogn); Pesymistic T(n)=O(n^2) and occurs if the array is sorted
+int* qkSort(int* input, int arrLen){
+    if(arrLen <= 1){ //if the array is only an element long
+        return input; //just break out
+    }
+    int l = 0; //left pointer - starts at the left and moves right
+    int r = arrLen - 1; //right pointer - starts at the end and moves left
+    int pivotId = arrLen / 2; //pivotId - in this case the middle element
+    int pivot = input[pivotId];
+    while(1){ //as long the two pointers dont meet
+        //move the left pointer until we find an element smaller that pivot
+        while(input[l] < pivot){ 
+            l++; 
+        }
+        //move the right pointer until we find a larger element than pivot
+        while(input[r] > pivot){
+            r--;
+        }
+        if(l >= r){ //if the two pointers met while moving
+            break; //break out
+        }
+        //swap the values if we didnt break out
+        int n = input[l];
+        input[l] = input[r];
+        input[r] = n;
+    }
+    //create the left array
+    int* arrL = calloc(r, sizeof(int));
+    memcpy(arrL, input, r * sizeof(int));
+    arrL = qkSort(arrL, r); //recursion
+    //create the right array
+    int* arrR = calloc(arrLen - r, sizeof(int));
+    memcpy(arrR, input + r + 1, (arrLen - r - 1) * sizeof(int));
+    arrR = qkSort(arrR, arrLen - r - 1); //recursion
+    //now merge
+    memcpy(input, arrL, (r) * sizeof(int));
+    memcpy(input + r + 1, arrR, (arrLen - r - 1) * sizeof(int));
+    //free the right and left arrays
+    free(arrL);
+    free(arrR);
+    return input;
+}
+
+//---Driver code for the sort algorythm---
 
 void printArr(int* arr, int arrLen);
 
@@ -51,49 +95,6 @@ int main(){
     printArr(input, i2);
     free(input);
     return 0;
-}
-//Returns a sorted int array using the quick sort algorythim (Hoare’s Partition Scheme)
-//Avg and optimistic T(n)=O(nlogn); Pesymistic T(n)=O(n^2) and occurs if the array is sorted
-int* qkSort(int* input, int arrLen){
-    if(arrLen <= 1){ //if the array is only an element long
-        return input; //just break out
-    }
-    int l = 0; //left pointer - starts at the left and moves right
-    int r = arrLen - 1; //right pointer - starts at the end and moves left
-    int pivotId = arrLen / 2; //pivotId - in this case the middle element
-    int pivot = input[pivotId];
-    while(1){ //as long the two pointers dont meet
-        //move the left pointer until we find an element smaller that pivot
-        while(input[l] < pivot){ 
-            l++; 
-        }
-        //move the right pointer until we find a larger element than pivot
-        while(input[r] > pivot){
-            r--;
-        }
-        if(l >= r){ //if the two pointers met while moving
-            break; //break out
-        }
-        //swap the values if we didnt break out
-        int n = input[l];
-        input[l] = input[r];
-        input[r] = n;
-    }
-    //create the left array
-    int* arrL = calloc(r, sizeof(int));
-    memcpy(arrL, input, r * sizeof(int));
-    arrL = qkSort(arrL, r); //recursion
-    //create the right array
-    int* arrR = calloc(arrLen - r, sizeof(int));
-    memcpy(arrR, input + r + 1, (arrLen - r - 1) * sizeof(int));
-    arrR = qkSort(arrR, arrLen - r - 1); //recursion
-    //now merge
-    memcpy(input, arrL, (r) * sizeof(int));
-    memcpy(input + r + 1, arrR, (arrLen - r - 1) * sizeof(int));
-    //free the right and left arrays
-    free(arrL);
-    free(arrR);
-    return input;
 }
 //Displays all numeric values in array
 void printArr(int* arr, int arrLen){

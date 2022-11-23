@@ -1,53 +1,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
-//Returns an array of ints sorted with the merge sort algorythm. The time complexity is O(nlogn)
-//Because T(n) = 2T(n/2) + θ(n)
-int* mrgSrt(int* input,int i2){
-    if(i2 == 1){ //if the length is one then do nothing and just return
-        return input;
-    }
-    //Here you could also do rudimentary sorting though that would make the algorythm not canonical
-    //the length is > 1 so we have to divide
-    int sizeA = i2 / 2; //size of the left side
-    int sizeB = i2 - sizeA; //size of the right side
-    //initialise the arrays
-    int* arrA = calloc(sizeA, sizeof(int));
-    memcpy(arrA, input, sizeA * sizeof(int));
-    int* arrB = calloc(sizeB, sizeof(int));
-    memcpy(arrB, input + sizeA, sizeB * sizeof(int));
-    //recursion
-    arrA = mrgSrt(arrA, sizeA);
-    arrB = mrgSrt(arrB, sizeB);
-    //and now we have to merge
-    int a = 0, b = 0, i = 0;
-    //we compare elements from both arrays at the same time as many times as possible
-    while(a < sizeA && b < sizeB){ //while we havent reached the end of either arr
-        //compare an element from A and B and swap accordingly
-        if(arrA[a] > arrB[b]){
-            input[i] = arrB[b];
-            b++;
+//Returns a sorted array using the bubble sort algorythm
+//Bubble sort has T(n)=O(n^2), but is significantly worse than selection sort even though both have the same T(n)
+int* bubSort(int* input, int arrLen){
+    for(int i = 0; i < arrLen; i++){ //Do the inner loop as many times as there are elements in array
+        for(int n = 0; n < arrLen - 1; n++){ //Foreach element in array
+            if(input[n] > input[n + 1]){ //If the current element is larger than the next one
+                //swap
+                int x = input[n];
+                input[n] = input[n + 1];
+                input[n + 1] = x; 
+            }
         }
-        else{
-            input[i] = arrA[a];
-            a++;
-        }
-        i++;
     }
-    //We make sure that no element was left behind
-    while(a < sizeA){
-        input[i] = arrA[a];
-        a++;
-        i++;
-    }
-    while(b < sizeB){
-        input[i] = arrB[b];
-        b++;
-        i++;
-    }
-    free(arrA);
-    free(arrB);
     return input;
 }
 
@@ -96,15 +64,17 @@ int main(){
     free(strProt);
     //Input handled and we are ready to sort
     printf("\n");
-    input = mrgSrt(input, i2);
-    printArr(input, i2);
+    input = bubSort(input, i2);
     free(input);
     return 0;
 }
 //Displays all numeric values in array
 void printArr(int* arr, int arrLen){
+    printf("\r");
     for(int i = 0; i < arrLen; i++){
         printf("%d ", arr[i]);
     }
-    printf("\n");
+    //printf("\n");
 }
+
+

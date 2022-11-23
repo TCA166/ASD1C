@@ -2,9 +2,34 @@
 #include <stdio.h>
 #include <string.h>
 
-int* selSrt(int* arr, int arrLen);
-
 int findMin(int *arr, int arrLen, int startId);
+
+/*Returns a sorted arr array of arrLen length using the select sort algorithm.
+Select sort has O(n^2) because it has two embedded loops*/
+int* selSrt(int* input, int arrLen){
+    int* resultArr = calloc(arrLen, sizeof(int));
+    int i2 = arrLen; //arr Length
+    for(int i = 0; i < i2; i++){
+        int minId = findMin(input, arrLen, i); //find the smallest element
+        resultArr[i] = input[minId]; //write that smallest element to the result array
+        input[minId] = input[i]; //overwrite that smallest element so that it doesn't get selected again
+    }
+    free(input);
+    return resultArr;
+}
+//Returns the Id of the smallest element in array
+int findMin(int *arr, int arrLen, int startId){
+    //We skip the first element in iteration and just assume it's the smallest for now
+    int min = startId; //Id of the smallest element
+    for(int i = startId + 1; i < arrLen; i++){ //foreach element we check if its smaller
+        if(arr[i] < arr[min]){
+            min = i; //if it is we change the mini
+        }
+    }
+    return min;
+}
+
+//---Driver code for the sort algorythm---
 
 void printArr(int* arr, int arrLen);
 
@@ -53,31 +78,6 @@ int main(){
     printArr(input, i2);
     free(input);
     return 0;
-}
-/*Returns a sorted arr array of arrLen length using the select sort algorithm.
-Select sort has O(n^2) because it has two embedded loops*/
-int* selSrt(int* arr, int arrLen){
-    int* resultArr = calloc(arrLen, sizeof(int));
-    int i2 = arrLen; //arr Length
-    for(int i = 0; i < i2; i++){
-        int minId = findMin(arr, arrLen, i);
-        int n = arr[i];
-        resultArr[i] = arr[minId];
-        arr[minId] = n;
-    }
-    free(arr);
-    return resultArr;
-}
-//Returns the Id of the smallest element in array
-int findMin(int *arr, int arrLen, int startId){
-    //We skip the first element in iteration and just assume it's the smallest for now
-    int min = startId; //Id of the smallest element
-    for(int i = startId + 1; i < arrLen; i++){ //foreach element we check if its smaller
-        if(arr[i] < arr[min]){
-            min = i; //if it is we change the mini
-        }
-    }
-    return min;
 }
 //Displays all numeric values in array
 void printArr(int* arr, int arrLen){
