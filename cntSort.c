@@ -4,16 +4,21 @@
 
 //Returns a sorted array using the count sort algorythm.
 //Count sort has T(n)=O(n + K), K=maximum value in array
-int* cntSrt(int* input, int arrLen, int maxVal){
-    int* counts = calloc(maxVal, sizeof(int));
+int* cntSrt(int* input, int arrLen){
+    int max = input[0];
+    int* counts = calloc(1, sizeof(int));
     //count the occurences of ints of different values
     for(int i = 0; i < arrLen; i++){
         int val = input[i];
+        if(val > max){
+            max = val;
+        }
+        counts = realloc(counts, (max + 1) * sizeof(int));
         counts[val]++;
     }
     int x = 0;
     //and now simply output
-    for(int i = 0; i < maxVal + 1; i++){
+    for(int i = 0; i < max + 1; i++){
         for(int n = counts[i]; n > 0; n--){
             input[x] = i;
             x++;
@@ -21,16 +26,6 @@ int* cntSrt(int* input, int arrLen, int maxVal){
     }
     free(counts);
     return input;
-}
-
-int max(int* input, int arrLen){
-    int max = input[0];
-    for(int i = 1; i < arrLen; i++){
-        if(input[i] > max){
-            max = input[i];
-        }
-    }
-    return max;
 }
 
 //---Driver code for the sort algorythm---
@@ -78,7 +73,7 @@ int main(){
     free(strProt);
     //Input handled and we are ready to sort
     printf("\n");
-    input = cntSrt(input, i2, max(input, i2));
+    input = cntSrt(input, i2);
     printArr(input, i2);
     free(input);
     return 0;
