@@ -1,5 +1,5 @@
 # Sorting Algorithms
-A collection of C algorithms made for my CS class
+A collection of C sorting algorithms made for training purposes for my CS class.
 <br>Algorithms are written in standard C and take strings with ints in them seperated by single spaces from stdin.<br>
 Also there's a test.py script written for algorithm testing. Outputs cool looking chart with results using matplotlib.<br>
 Comparisons of all algorithms at a scale where they can compete:
