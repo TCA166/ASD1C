@@ -11,7 +11,7 @@ last = first * 10
 
 lengths = range(first, last + 1, first)
 
-results = {'linSearch':[], 'binSearch':[]}
+results = {'insSort':[], 'bubSort':[]}
 
 for len in lengths:
     print("Input length:%d" % len)
