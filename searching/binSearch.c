@@ -15,7 +15,6 @@ int binSearch(int* input, int l,int r, int s){
         }
     }
     int mid = (l + r) / 2; //find the middle element
-    //printf("Mid: %d", mid);
     if(input[mid] == s){ //check if the middle element is the one we are looking for
         return 1;
     }
@@ -30,7 +29,7 @@ int binSearch(int* input, int l,int r, int s){
     return binSearch(input, l, r, s);   
 }
 
-//---Driver code for the sort algorythm---
+//---Driver code for the searching algorythm---
 
 void printArr(int* arr, int arrLen);
 
@@ -84,7 +83,7 @@ int main(){
     //Input handled and we are ready to sort
     printf("\n");
     //printArr(input, i2);
-    input = qkSort(input, i2);
+    input = qkSort(input, i2); //input is sorted just to be sure since binary search requires for it to be sorted
     //printArr(input, i2);
     int res = binSearch(input, 0, i2 - 1, target);
     printf("%d", res);
@@ -98,7 +97,7 @@ void printArr(int* arr, int arrLen){
     }
     printf("\n");
 }
-//Returns a sorted int array using the quick sort algorythim (Hoare’s Partition Scheme)
+//Returns a sorted int array using the quick sort algorithm (Hoare’s Partition Scheme)
 //Avg and optimistic T(n)=O(nlogn); Pesymistic T(n)=O(n^2) and occurs if the array is sorted
 int* qkSort(int* input, int arrLen){
     if(arrLen <= 1){ //if the array is only an element long
